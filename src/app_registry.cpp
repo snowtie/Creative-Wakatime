@@ -81,6 +81,20 @@ const std::vector<AppDefinition>& AppRegistry::All()
         clipStudio.cmdLineEntity = CmdLineEntity::PositionalFile;
         defs.push_back(std::move(clipStudio));
 
+        AppDefinition muvel;
+        muvel.id = "muvel";
+        muvel.displayName = "Muvel";
+        muvel.processNames = {L"muvel.exe"};
+        muvel.fileExtensions = {
+            ".muvl", ".mvle", ".mvlm", ".mvlw",
+        };
+        muvel.language = "Muvel";
+        muvel.editor = "Muvel";
+        muvel.strategy = TrackStrategy::WindowTitle;
+        muvel.cmdLineEntity = CmdLineEntity::PositionalFile;
+        muvel.allowAppEntityFallback = true;
+        defs.push_back(std::move(muvel));
+
         return defs;
     }();
 

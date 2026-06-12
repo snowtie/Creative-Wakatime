@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-skyblue.svg?style=for-the-badge&logo=github)](LICENSE)
 ![GitHub Repo stars](https://img.shields.io/github/stars/snow0406/creative-wakatime?style=for-the-badge&logo=github&color=%23ef8d9d)
 
-🎯 Automatic time tracking for **Unity**, **Aseprite**, **Blender** and **Clip Studio Paint** via WakaTime
+🎯 Automatic time tracking for **Unity**, **Aseprite**, **Blender**, **Clip Studio Paint** and **Muvel** via WakaTime
 
 ---
 
@@ -13,14 +13,14 @@
 
 ### 🚀 Features
 
-- **Multi-app tracking**: Unity, Aseprite, Blender and Clip Studio Paint activity
+- **Multi-app tracking**: Unity, Aseprite, Blender, Clip Studio Paint and Muvel activity
   is reported to WakaTime from one Creative WakaTime client.
 - **Pick what you track**: enable or disable apps from the tray's `Tracked Apps`
   submenu. Only the apps you select are scanned.
 - **Unity**: project auto-detection + real-time file-change tracking, with editor
   version detection (e.g. "Unity 2022.3"). Multiple Unity instances are mapped to
   their own project.
-- **Aseprite / Blender / Clip Studio Paint**: presence + foreground window-title
+- **Aseprite / Blender / Clip Studio Paint / Muvel**: presence + foreground window-title
   tracking estimates the active file. See the note below about how this is an
   *activity-time estimate*.
 - **Pause Monitoring**: a single global gate that blocks all heartbeats instantly.
@@ -53,7 +53,7 @@
 
 3. **Choose tracked apps**:
     - Right-click the tray icon → `Tracked Apps`
-    - Check the apps you want to track (Unity / Aseprite / Blender / Clip Studio Paint)
+    - Check the apps you want to track (Unity / Aseprite / Blender / Clip Studio Paint / Muvel)
     - Your selection is saved to `%APPDATA%/creative-wakatime/apps.txt`
     - By default only **Unity** is enabled on first run.
 
@@ -65,15 +65,15 @@
 Two strategies are used depending on the app:
 
 ```
-Unity                                 -> ProcessMonitor (-projectPath) -> FileWatcher (file writes) -> WakaTime API
-Aseprite / Blender / Clip Studio Paint -> ProcessMonitor (presence)     -> FocusDetector (window title) -> WakaTime API
+Unity                                         -> ProcessMonitor (-projectPath) -> FileWatcher (file writes) -> WakaTime API
+Aseprite / Blender / Clip Studio Paint / Muvel -> ProcessMonitor (presence)     -> FocusDetector (window title) -> WakaTime API
 ```
 
 - **Unity (DirectoryWatch)** — the project folder is watched recursively and each
   relevant file write produces a `is_write=true` heartbeat. Focus on a Unity window
   also produces a periodic keep-alive heartbeat for the focused project.
 
-- **Aseprite / Blender / Clip Studio Paint (WindowTitle)** — these apps are not
+- **Aseprite / Blender / Clip Studio Paint / Muvel (WindowTitle)** — these apps are not
   hooked directly. The app being running means it is "active", and the foreground
   window title is parsed to estimate which file you are editing. Heartbeats are
   sent on focus, on title change, and periodically while focused (`is_write=false`).
@@ -82,6 +82,7 @@ Aseprite / Blender / Clip Studio Paint -> ProcessMonitor (presence)     -> Focus
 > real saves/edits. The entity is derived from the launch command line and the live
 > window title. Unsaved / "Untitled" documents are skipped, and dirty markers (`*`,
 > `●`) are normalized so the same file is not double-counted.
+> Muvel can fall back to the app window itself when no active file name is available.
 
 Window-title formats differ per app and per version, so the parser is heuristic. If
 your file is not detected correctly, the command-line path (the file you opened at

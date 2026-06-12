@@ -30,6 +30,7 @@ struct AppDefinition {
     std::string editor;                      // WakaTime editor 베이스 이름
     TrackStrategy strategy;
     CmdLineEntity cmdLineEntity;
+    bool allowAppEntityFallback = false;     // 파일명이 없을 때 앱 창 자체를 entity로 기록
 };
 
 namespace AppRegistry

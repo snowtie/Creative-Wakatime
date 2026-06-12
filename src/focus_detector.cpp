@@ -243,6 +243,11 @@ void FocusDetector::EmitForWindow(const HWND hwnd)
         entity = NormalizeSlashes(cmdEntity);
         project = ParentLeafName(entity);
     }
+    else if (def->allowAppEntityFallback)
+    {
+        entity = def->displayName;
+        project = def->displayName;
+    }
     else
     {
         return; // entity 없음(Untitled/미저장) → 전송 스킵
